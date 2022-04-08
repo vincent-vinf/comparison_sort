@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const dataLen = 7000
+const dataLen = 100000
 
 type Sorter interface {
 	Sort([]int) []int
@@ -66,6 +66,28 @@ func TestMerge(t *testing.T) {
 func TestQuick(t *testing.T) {
 	if !testSort(&impl.QuickSort{}) {
 		t.Error("error")
+	}
+}
+
+func BenchmarkQuick(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		if !testSort(&impl.QuickSort{}) {
+			b.Error("error")
+		}
+	}
+}
+
+func TestConQuick(t *testing.T) {
+	if !testSort(&impl.ConcurrentQSort{}) {
+		t.Error("error")
+	}
+}
+
+func BenchmarkConQuick(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		if !testSort(&impl.ConcurrentQSort{}) {
+			b.Error("error")
+		}
 	}
 }
 
